@@ -319,6 +319,8 @@ class CONTENT_EXPORT WebContentsImpl
   bool GotResponseToLockMouseRequest(bool allowed) override;
   bool HasOpener() const override;
   void DidChooseColorInColorChooser(SkColor color) override;
+  void DidReplaceDateTime(const std::string& value) override;
+  void DidCancelDialog() override;
   void DidEndColorChooser() override;
   int DownloadImage(const GURL& url,
                     bool is_favicon,
@@ -765,13 +767,16 @@ class CONTENT_EXPORT WebContentsImpl
                    const gfx::Rect& selection_rect,
                    int active_match_ordinal,
                    bool final_update);
+
+#if defined(OS_ANDROID) || defined(OS_TIZEN)
+    void OnOpenDateTimeDialog(
+      const ViewHostMsg_DateTimeDialogValue_Params& value);
+#endif
+
 #if defined(OS_ANDROID)
   void OnFindMatchRectsReply(int version,
                              const std::vector<gfx::RectF>& rects,
                              const gfx::RectF& active_rect);
-
-  void OnOpenDateTimeDialog(
-      const ViewHostMsg_DateTimeDialogValue_Params& value);
 #endif
   void OnDomOperationResponse(const std::string& json_string,
                               int automation_id);

@@ -489,7 +489,7 @@ IPC_STRUCT_END()
 
 // Messages sent from the browser to the renderer.
 
-#if defined(OS_ANDROID)
+#if defined(OS_ANDROID) || defined(OS_TIZEN)
 // Tells the renderer to cancel an opened date/time dialog.
 IPC_MESSAGE_ROUTED0(ViewMsg_CancelDateTimeDialog)
 
@@ -498,6 +498,10 @@ IPC_MESSAGE_ROUTED1(ViewMsg_ReplaceDateTime,
                     double /* dialog_value */)
 
 #endif
+
+// Replaces a date time input field with string
+IPC_MESSAGE_ROUTED1(ViewMsg_ReplaceDateTime_String,
+                    std::string /* dialog value */)
 
 // Get all savable resource links from current webpage, include main
 // frame and sub-frame.

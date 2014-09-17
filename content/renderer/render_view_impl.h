@@ -66,6 +66,9 @@
 #include "third_party/WebKit/public/web/WebContentDetectionResult.h"
 #endif
 
+#if defined(OS_TIZEN)
+#include "content/renderer/android/renderer_date_time_picker.h"
+#endif
 #if defined(COMPILER_MSVC)
 // RenderViewImpl is a diamond-shaped hierarchy, with WebWidgetClient at the
 // root. VS warns when we inherit the WebWidgetClient method implementations
@@ -240,7 +243,7 @@ class CONTENT_EXPORT RenderViewImpl
   bool ScheduleFileChooser(const FileChooserParams& params,
                            blink::WebFileChooserCompletion* completion);
 
-#if defined(OS_ANDROID)
+#if defined(OS_ANDROID) || defined(OS_TIZEN)
   void DismissDateTimeDialog();
 #endif
 
@@ -430,16 +433,19 @@ class CONTENT_EXPORT RenderViewImpl
   virtual blink::WebPushClient* webPushClient();
   virtual void draggableRegionsChanged();
 
+#if defined(OS_ANDROID) || defined(OS_TIZEN)
+  // Only used on Android since all other platforms implement
+  // date and time input fields using MULTIPLE_FIELDS_UI
+  // And we add Tizen
+  virtual bool openDateTimeChooser(const blink::WebDateTimeChooserParams&,
+                                   blink::WebDateTimeChooserCompletion*);
+#endif
 #if defined(OS_ANDROID)
   virtual void scheduleContentIntent(const blink::WebURL& intent);
   virtual void cancelScheduledContentIntents();
   virtual blink::WebContentDetectionResult detectContentAround(
       const blink::WebHitTestResult& touch_hit);
 
-  // Only used on Android since all other platforms implement
-  // date and time input fields using MULTIPLE_FIELDS_UI
-  virtual bool openDateTimeChooser(const blink::WebDateTimeChooserParams&,
-                                   blink::WebDateTimeChooserCompletion*);
   virtual void didScrollWithKeyboard(const blink::WebSize& delta);
 #endif
 
@@ -1003,6 +1009,11 @@ class CONTENT_EXPORT RenderViewImpl
 
   scoped_ptr<HistoryController> history_controller_;
 
+#if defined(OS_ANDROID) || defined(OS_TIZEN)
+  // A date/time picker object for date and time related input elements.
+  scoped_ptr<RendererDateTimePicker> date_time_picker_client_;
+#endif
+
 #if defined(OS_ANDROID)
   // Android Specific ---------------------------------------------------------
 
@@ -1013,9 +1024,6 @@ class CONTENT_EXPORT RenderViewImpl
   // List of click-based content detectors.
   typedef std::vector< linked_ptr<ContentDetector> > ContentDetectorList;
   ContentDetectorList content_detectors_;
-
-  // A date/time picker object for date and time related input elements.
-  scoped_ptr<RendererDateTimePicker> date_time_picker_client_;
 #endif
 
   // Plugins -------------------------------------------------------------------

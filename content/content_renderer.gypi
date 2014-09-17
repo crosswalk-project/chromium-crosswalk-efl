@@ -867,6 +867,16 @@
       'sources/': [
         ['include', '^renderer/render_view_linux\\.cc$'],
       ],
-    }],
+    }, {
+        'conditions': [
+         # For tizen, we need these files.
+         ['building_for_tizen==1',{
+           'sources/': [
+            ['include', 'renderer/android/renderer_date_time_picker.cc'],
+            ['include', 'renderer/android/renderer_date_time_picker.h',],
+           ],
+         }],
+        ],
+       }],
   ],
 }

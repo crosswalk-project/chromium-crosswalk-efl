@@ -848,7 +848,7 @@ RenderViewImpl::~RenderViewImpl() {
     file_chooser_completions_.pop_front();
   }
 
-#if defined(OS_ANDROID)
+#if defined(OS_ANDROID) || defined(OS_TIZEN)
   // The date/time picker client is both a scoped_ptr member of this class and
   // a RenderViewObserver. Reset it to prevent double deletion.
   date_time_picker_client_.reset();
@@ -4018,7 +4018,9 @@ void RenderViewImpl::LaunchAndroidContentIntent(const GURL& intent,
   if (!intent.is_empty())
     Send(new ViewHostMsg_StartContentIntent(routing_id_, intent));
 }
+#endif  // defined(OS_ANDROID)
 
+#if defined(OS_ANDROID) || defined(OS_TIZEN)
 bool RenderViewImpl::openDateTimeChooser(
     const blink::WebDateTimeChooserParams& params,
     blink::WebDateTimeChooserCompletion* completion) {
@@ -4034,8 +4036,7 @@ void RenderViewImpl::DismissDateTimeDialog() {
   DCHECK(date_time_picker_client_);
   date_time_picker_client_.reset(NULL);
 }
-
-#endif  // defined(OS_ANDROID)
+#endif
 
 void RenderViewImpl::OnShowContextMenu(
     ui::MenuSourceType source_type, const gfx::Point& location) {
