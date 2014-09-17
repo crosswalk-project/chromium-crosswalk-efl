@@ -30,6 +30,7 @@ class RendererDateTimePicker : public RenderViewObserver {
 
  private:
   void OnReplaceDateTime(double value);
+  void OnReplaceDateTimeWithString(const std::string& value);
   void OnCancel();
 
   // RenderViewObserver

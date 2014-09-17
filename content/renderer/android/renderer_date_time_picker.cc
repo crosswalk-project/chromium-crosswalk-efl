@@ -75,6 +75,9 @@ bool RendererDateTimePicker::OnMessageReceived(
   bool handled = true;
   IPC_BEGIN_MESSAGE_MAP(RendererDateTimePicker, message)
     IPC_MESSAGE_HANDLER(ViewMsg_ReplaceDateTime, OnReplaceDateTime)
+#if defined(OS_TIZEN)
+    IPC_MESSAGE_HANDLER(ViewMsg_ReplaceDateTime_String, OnReplaceDateTimeWithString)
+#endif
     IPC_MESSAGE_HANDLER(ViewMsg_CancelDateTimeDialog, OnCancel)
     IPC_MESSAGE_UNHANDLED(handled = false)
   IPC_END_MESSAGE_MAP()
@@ -86,6 +89,14 @@ void RendererDateTimePicker::OnReplaceDateTime(double value) {
     chooser_completion_->didChooseValue(value);
   static_cast<RenderViewImpl*>(render_view())->DismissDateTimeDialog();
 }
+
+#if defined(OS_TIZEN)
+void RendererDateTimePicker::OnReplaceDateTimeWithString(const std::string& value) {
+  if (chooser_completion_)
+      chooser_completion_->didChooseValue(blink::WebString::fromUTF8(value));
+   static_cast<RenderViewImpl*>(render_view())->DismissDateTimeDialog();
+}
+#endif
 
 void RendererDateTimePicker::OnCancel() {
   if (chooser_completion_)

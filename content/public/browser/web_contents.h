@@ -533,6 +533,10 @@ class WebContents : public PageNavigator,
   // Called when the color chooser has ended.
   virtual void DidEndColorChooser() = 0;
 
+  // Called when needed by inputpicker.
+  virtual void DidReplaceDateTime(const std::string& value) = 0;
+  virtual void DidCancelDialog() = 0;
+
   // Returns true if the location bar should be focused by default rather than
   // the page contents. The view calls this function when the tab is focused
   // to see what it should do.

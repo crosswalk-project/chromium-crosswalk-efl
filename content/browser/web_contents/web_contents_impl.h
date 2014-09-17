@@ -325,6 +325,8 @@ class CONTENT_EXPORT WebContentsImpl
   virtual bool HasOpener() const OVERRIDE;
   virtual void DidChooseColorInColorChooser(SkColor color) OVERRIDE;
   virtual void DidEndColorChooser() OVERRIDE;
+  virtual void DidReplaceDateTime(const std::string& value) OVERRIDE;
+  virtual void DidCancelDialog() OVERRIDE;
   virtual int DownloadImage(const GURL& url,
                             bool is_favicon,
                             uint32_t max_bitmap_size,
@@ -794,13 +796,16 @@ class CONTENT_EXPORT WebContentsImpl
                    const gfx::Rect& selection_rect,
                    int active_match_ordinal,
                    bool final_update);
+
+#if defined(OS_ANDROID) || defined(OS_TIZEN)
+    void OnOpenDateTimeDialog(
+      const ViewHostMsg_DateTimeDialogValue_Params& value);
+#endif
+
 #if defined(OS_ANDROID)
   void OnFindMatchRectsReply(int version,
                              const std::vector<gfx::RectF>& rects,
                              const gfx::RectF& active_rect);
-
-  void OnOpenDateTimeDialog(
-      const ViewHostMsg_DateTimeDialogValue_Params& value);
 #endif
   void OnPepperPluginHung(int plugin_child_id,
                           const base::FilePath& path,

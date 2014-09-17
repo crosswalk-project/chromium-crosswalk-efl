@@ -598,6 +598,8 @@ bool WebContentsImpl::OnMessageReceived(RenderViewHost* render_view_host,
 #if defined(OS_ANDROID)
     IPC_MESSAGE_HANDLER(ViewHostMsg_FindMatchRects_Reply,
                         OnFindMatchRectsReply)
+#endif
+#if defined(OS_ANDROID) || defined(OS_TIZEN)
     IPC_MESSAGE_HANDLER(ViewHostMsg_OpenDateTimeDialog,
                         OnOpenDateTimeDialog)
 #endif
@@ -2439,6 +2441,16 @@ void WebContentsImpl::DidEndColorChooser() {
   color_chooser_info_.reset();
 }
 
+void WebContentsImpl::DidReplaceDateTime(const std::string& value) {
+  Send(new ViewMsg_ReplaceDateTime_String(GetRoutingID(), value));
+}
+
+void WebContentsImpl::DidCancelDialog() {
+#if defined(OS_ANDROID) || defined(OS_TIZEN)
+    Send(new ViewMsg_CancelDateTimeDialog(GetRoutingID()));
+#endif
+}
+
 int WebContentsImpl::DownloadImage(const GURL& url,
                                    bool is_favicon,
                                    uint32_t max_bitmap_size,
@@ -2909,6 +2921,18 @@ void WebContentsImpl::OnFindReply(int request_id,
                          active_match_ordinal, final_update);
   }
 }
+
+#if defined(OS_TIZEN)
+void WebContentsImpl::OnOpenDateTimeDialog(
+    const ViewHostMsg_DateTimeDialogValue_Params& value) {
+  delegate_->OpenDateTimeDialog(value.dialog_type,
+                                value.dialog_value,
+                                value.minimum,
+                                value.maximum,
+                                value.step,
+                                value.suggestions);
+}
+#endif
 
 #if defined(OS_ANDROID)
 void WebContentsImpl::OnFindMatchRectsReply(

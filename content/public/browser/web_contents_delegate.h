@@ -18,6 +18,7 @@
 #include "content/public/common/window_container_type.h"
 #include "third_party/WebKit/public/web/WebDragOperation.h"
 #include "third_party/skia/include/core/SkColor.h"
+#include "ui/base/ime/text_input_type.h"
 #include "ui/base/window_open_disposition.h"
 #include "ui/gfx/native_widget_types.h"
 #include "ui/gfx/rect_f.h"
@@ -41,6 +42,7 @@ class WebContents;
 class WebContentsImpl;
 struct ColorSuggestion;
 struct ContextMenuParams;
+struct DateTimeSuggestion;
 struct DropData;
 struct FileChooserParams;
 struct NativeWebKeyboardEvent;
@@ -352,6 +354,13 @@ class CONTENT_EXPORT WebContentsDelegate {
       WebContents* web_contents,
       SkColor color,
       const std::vector<ColorSuggestion>& suggestions);
+
+  virtual void OpenDateTimeDialog(ui::TextInputType dialog_type,
+                                  double dialog_value,
+                                  double min,
+                                  double max,
+                                  double step,
+                                  const std::vector<DateTimeSuggestion>& suggestions){}
 
   // Called when a file selection is to be done.
   virtual void RunFileChooser(WebContents* web_contents,
