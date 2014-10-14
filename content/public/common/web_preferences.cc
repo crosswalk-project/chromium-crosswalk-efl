@@ -156,12 +156,15 @@ WebPreferences::WebPreferences()
       slimming_paint_enabled(false),
       cookie_enabled(true),
       pepper_accelerated_video_decode_enabled(false)
-#if defined(OS_ANDROID)
+#if defined(OS_ANDROID) || defined(TIZEN_ENGINE_SUPPORT)
       ,
       text_autosizing_enabled(true),
       font_scale_factor(1.0f),
       device_scale_adjustment(1.0f),
-      force_enable_zoom(false),
+      force_enable_zoom(false)
+#endif
+#if defined(OS_ANDROID)
+      ,
       fullscreen_supported(true),
       double_tap_to_zoom_enabled(true),
       user_gesture_required_for_media_playback(true),
@@ -177,6 +180,12 @@ WebPreferences::WebPreferences()
       clobber_user_agent_initial_scale_quirk(false),
       ignore_main_frame_overflow_hidden_quirk(false),
       report_screen_size_in_physical_pixels_quirk(false)
+#endif
+#if defined(TIZEN_ENGINE_SUPPORT)
+      ,
+      editable_link_behavior(EDITABLE_LINK_BEHAVIOR_DEFAULT),
+      uses_encoding_detector(false),
+      initial_list_style_position(LIST_STYLE_POSITION_OUTSIDE)
 #endif
 {
   standard_font_family_map[kCommonScript] =

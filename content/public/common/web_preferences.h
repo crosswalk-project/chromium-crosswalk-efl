@@ -32,6 +32,22 @@ enum EditingBehavior {
   EDITING_BEHAVIOR_LAST = EDITING_BEHAVIOR_ANDROID
 };
 
+#if defined(TIZEN_ENGINE_SUPPORT)
+enum EditableLinkBehavior {
+  EDITABLE_LINK_BEHAVIOR_DEFAULT,
+  EDITABLE_LINK_BEHAVIOR_ALWAYS_LIVE,
+  EDITABLE_LINK_BEHAVIOR_ONLY_LIVE_WITH_SHIFTKEY,
+  EDITABLE_LINK_BEHAVIOR_LIVE_WHEN_NOT_FOCUSED,
+  EDITABLE_LINK_BEHAVIOR_NEVER_LIVE,
+  EDITABLE_LINK_BEHAVIOR_LAST = EDITABLE_LINK_BEHAVIOR_NEVER_LIVE
+};
+#endif
+
+enum ListStylePosition {
+  LIST_STYLE_POSITION_OUTSIDE,
+  LIST_STYLE_POSITION_INSIDE
+};
+
 enum V8CacheOptions {
   V8_CACHE_OPTIONS_OFF,
   V8_CACHE_OPTIONS_PARSE,
@@ -168,11 +184,14 @@ struct CONTENT_EXPORT WebPreferences {
   // pepper plugins. Defaults to false.
   bool pepper_accelerated_video_decode_enabled;
 
-#if defined(OS_ANDROID)
+#if defined(OS_ANDROID) || defined(TIZEN_ENGINE_SUPPORT)
   bool text_autosizing_enabled;
   float font_scale_factor;
   float device_scale_adjustment;
   bool force_enable_zoom;
+#endif
+
+#if defined(OS_ANDROID)
   bool fullscreen_supported;
   bool double_tap_to_zoom_enabled;
   bool user_gesture_required_for_media_playback;
@@ -191,6 +210,11 @@ struct CONTENT_EXPORT WebPreferences {
   bool report_screen_size_in_physical_pixels_quirk;
 #endif
 
+#if defined(TIZEN_ENGINE_SUPPORT)
+  EditableLinkBehavior editable_link_behavior;
+  bool uses_encoding_detector;
+  ListStylePosition initial_list_style_position;
+#endif
   // We try to keep the default values the same as the default values in
   // chrome, except for the cases where it would require lots of extra work for
   // the embedder to use the same default value.

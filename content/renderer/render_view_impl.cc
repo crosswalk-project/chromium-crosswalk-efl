@@ -1139,6 +1139,9 @@ void RenderView::ApplyWebPreferences(const WebPreferences& prefs,
   settings->setPinchOverlayScrollbarThickness(
       prefs.pinch_overlay_scrollbar_thickness);
   settings->setUseSolidColorScrollbars(prefs.use_solid_color_scrollbars);
+#if defined(TIZEN_ENGINE_SUPPORT)
+  settings->setUsesEncodingDetector(prefs.uses_encoding_detector);
+#endif
 }
 
 /*static*/
