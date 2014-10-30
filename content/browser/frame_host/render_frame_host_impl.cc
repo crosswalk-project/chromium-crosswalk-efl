@@ -395,7 +395,7 @@ bool RenderFrameHostImpl::OnMessageReceived(const IPC::Message &msg) {
                         OnAccessibilityFindInPageResult)
     IPC_MESSAGE_HANDLER(PushMessagingHostMsg_RequestPermission,
                         OnRequestPushPermission)
-#if defined(OS_MACOSX) || defined(OS_ANDROID)
+#if defined(OS_MACOSX) || defined(OS_ANDROID) || defined(OS_TIZEN)
     IPC_MESSAGE_HANDLER(FrameHostMsg_ShowPopup, OnShowPopup)
     IPC_MESSAGE_HANDLER(FrameHostMsg_HidePopup, OnHidePopup)
 #endif
@@ -1233,7 +1233,7 @@ void RenderFrameHostImpl::OnRequestPushPermission(int request_id,
                  request_id));
 }
 
-#if defined(OS_MACOSX) || defined(OS_ANDROID)
+#if defined(OS_MACOSX) || defined(OS_ANDROID) || defined(OS_TIZEN)
 void RenderFrameHostImpl::OnShowPopup(
     const FrameHostMsg_ShowPopup_Params& params) {
   RenderViewHostDelegateView* view =
@@ -1635,7 +1635,7 @@ void RenderFrameHostImpl::DidCancelPopupMenu() {
   Send(new FrameMsg_SelectPopupMenuItem(routing_id_, -1));
 }
 
-#elif defined(OS_ANDROID)
+#elif defined(OS_ANDROID) || defined(OS_TIZEN)
 
 void RenderFrameHostImpl::DidSelectPopupMenuItems(
     const std::vector<int>& selected_indices) {
@@ -1647,6 +1647,12 @@ void RenderFrameHostImpl::DidCancelPopupMenu() {
       routing_id_, true, std::vector<int>()));
 }
 
+#endif
+
+#if defined(OS_TIZEN)
+void RenderFrameHostImpl::DidClosePopupMenu() {
+  Send(new FrameMsg_ClosePopupMenu(routing_id_));
+}
 #endif
 
 void RenderFrameHostImpl::ClearPendingTransitionRequestData() {

@@ -36,7 +36,7 @@ class ExternalPopupMenu : public blink::WebExternalPopupMenu {
   void DidSelectItem(int selected_index);
 #endif
 
-#if defined(OS_ANDROID)
+#if defined(OS_ANDROID) || defined(OS_TIZEN)
   // Called when the user has selected items or canceled the popup.
   void DidSelectItems(bool canceled, const std::vector<int>& selected_indices);
 #endif

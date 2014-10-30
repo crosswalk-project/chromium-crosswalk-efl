@@ -29,6 +29,7 @@ void ExternalPopupMenu::SetOriginScaleAndOffsetForEmulation(
 }
 
 void ExternalPopupMenu::show(const blink::WebRect& bounds) {
+#if defined(OS_MACOSX) || defined(OS_ANDROID) || defined(OS_TIZEN)
   blink::WebRect rect = bounds;
   if (origin_scale_for_emulation_) {
     rect.x *= origin_scale_for_emulation_;
@@ -51,13 +52,20 @@ void ExternalPopupMenu::show(const blink::WebRect& bounds) {
       popup_menu_info_.allowMultipleSelection;
   render_frame_->Send(
       new FrameHostMsg_ShowPopup(render_frame_->GetRoutingID(), popup_params));
+#endif
 }
 
 void ExternalPopupMenu::close()  {
+#if defined(OS_TIZEN)
+    popup_menu_client_->didCancel();
+#endif
+
+#if defined(OS_MACOSX) || defined(OS_ANDROID) || defined(OS_TIZEN)
   render_frame_->Send(
       new FrameHostMsg_HidePopup(render_frame_->GetRoutingID()));
   render_frame_->DidHideExternalPopupMenu();
   // |this| was deleted.
+#endif
 }
 
 #if defined(OS_MACOSX)
@@ -71,7 +79,7 @@ void ExternalPopupMenu::DidSelectItem(int index) {
 }
 #endif
 
-#if defined(OS_ANDROID)
+#if defined(OS_ANDROID) || defined(OS_TIZEN)
 void ExternalPopupMenu::DidSelectItems(bool canceled,
                                        const std::vector<int>& indices) {
   if (!popup_menu_client_)

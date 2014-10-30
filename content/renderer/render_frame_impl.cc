@@ -894,7 +894,7 @@ bool RenderFrameImpl::Send(IPC::Message* message) {
   return RenderThread::Get()->Send(message);
 }
 
-#if defined(OS_MACOSX) || defined(OS_ANDROID)
+#if defined(OS_MACOSX) || defined(OS_ANDROID) || defined(OS_TIZEN)
 void RenderFrameImpl::DidHideExternalPopupMenu() {
   // We need to clear external_popup_menu_ as soon as ExternalPopupMenu::close
   // is called. Otherwise, createExternalPopupMenu() for new popup will fail.
@@ -1832,7 +1832,7 @@ RenderFrameImpl::createWorkerPermissionClientProxy(
 WebExternalPopupMenu* RenderFrameImpl::createExternalPopupMenu(
     const WebPopupMenuInfo& popup_menu_info,
     WebExternalPopupMenuClient* popup_menu_client) {
-#if defined(OS_MACOSX) || defined(OS_ANDROID)
+#if defined(OS_MACOSX) || defined(OS_ANDROID) || defined(OS_TIZEN)
   // An IPC message is sent to the browser to build and display the actual
   // popup. The user could have time to click a different select by the time
   // the popup is shown. In that case external_popup_menu_ is non NULL.

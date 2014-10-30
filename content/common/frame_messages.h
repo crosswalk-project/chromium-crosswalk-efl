@@ -306,7 +306,7 @@ IPC_STRUCT_BEGIN(FrameHostMsg_BeginNavigation_Params)
   IPC_STRUCT_MEMBER(bool, has_user_gesture)
 IPC_STRUCT_END()
 
-#if defined(OS_MACOSX) || defined(OS_ANDROID)
+#if defined(OS_MACOSX) || defined(OS_ANDROID) || defined(OS_TIZEN)
 // This message is used for supporting popup menus on Mac OS X and Android using
 // native controls. See the FrameHostMsg_ShowPopup message.
 IPC_STRUCT_BEGIN(FrameHostMsg_ShowPopup_Params)
@@ -467,7 +467,7 @@ IPC_MESSAGE_ROUTED1(FrameMsg_AddStyleSheetByURL, std::string)
 IPC_MESSAGE_ROUTED1(FrameMsg_SetAccessibilityMode,
                     AccessibilityMode)
 
-#if defined(OS_ANDROID)
+#if defined(OS_ANDROID) || defined(OS_TIZEN)
 
 // External popup menus.
 IPC_MESSAGE_ROUTED2(FrameMsg_SelectPopupMenuItems,
@@ -480,6 +480,11 @@ IPC_MESSAGE_ROUTED2(FrameMsg_SelectPopupMenuItems,
 IPC_MESSAGE_ROUTED1(FrameMsg_SelectPopupMenuItem,
                     int /* selected index, -1 means no selection */)
 
+#endif
+
+#if defined(OS_TIZEN)
+// External popup menus.
+IPC_MESSAGE_ROUTED0(FrameMsg_ClosePopupMenu);
 #endif
 
 // PlzNavigate
@@ -782,7 +787,7 @@ IPC_MESSAGE_ROUTED2(FrameHostMsg_BeginNavigation,
 // after the frame has painted something.
 IPC_MESSAGE_ROUTED0(FrameHostMsg_DidFirstVisuallyNonEmptyPaint)
 
-#if defined(OS_MACOSX) || defined(OS_ANDROID)
+#if defined(OS_MACOSX) || defined(OS_ANDROID) || defined(OS_TIZEN)
 
 // Message to show/hide a popup menu using native controls.
 IPC_MESSAGE_ROUTED1(FrameHostMsg_ShowPopup,

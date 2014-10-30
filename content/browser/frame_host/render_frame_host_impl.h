@@ -38,7 +38,7 @@ struct FrameHostMsg_DidFailProvisionalLoadWithError_Params;
 struct FrameHostMsg_OpenURL_Params;
 struct FrameHostMsg_BeginNavigation_Params;
 struct FrameMsg_Navigate_Params;
-#if defined(OS_MACOSX) || defined(OS_ANDROID)
+#if defined(OS_MACOSX) || defined(OS_ANDROID) || defined(OS_TIZEN)
 struct FrameHostMsg_ShowPopup_Params;
 #endif
 
@@ -355,9 +355,12 @@ class CONTENT_EXPORT RenderFrameHostImpl
   // Select popup menu related methods (for external popup menus).
   void DidSelectPopupMenuItem(int selected_index);
   void DidCancelPopupMenu();
-#elif defined(OS_ANDROID)
+#elif defined(OS_ANDROID) || defined(OS_TIZEN)
   void DidSelectPopupMenuItems(const std::vector<int>& selected_indices);
   void DidCancelPopupMenu();
+#endif
+#if defined(OS_TIZEN)
+  void DidClosePopupMenu();
 #endif
 
   // PlzNavigate: Indicates that a navigation is ready to commit and can be
@@ -454,7 +457,7 @@ class CONTENT_EXPORT RenderFrameHostImpl
       const AccessibilityHostMsg_FindInPageResultParams& params);
   void OnRequestPushPermission(int request_id, bool user_gesture);
 
-#if defined(OS_MACOSX) || defined(OS_ANDROID)
+#if defined(OS_MACOSX) || defined(OS_ANDROID) || defined(OS_TIZEN)
   void OnShowPopup(const FrameHostMsg_ShowPopup_Params& params);
   void OnHidePopup();
 #endif

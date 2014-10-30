@@ -261,8 +261,9 @@ class CONTENT_EXPORT RenderFrameImpl
   // NULL.
   MediaStreamDispatcher* GetMediaStreamDispatcher();
 
-#if defined(OS_MACOSX) || defined(OS_ANDROID)
+#if defined(OS_MACOSX) || defined(OS_ANDROID) || defined(OS_TIZEN)
   void DidHideExternalPopupMenu();
+  ExternalPopupMenu* GetExternalPopupMenu() { return external_popup_menu_.get(); }
 #endif
 
   // IPC::Sender
@@ -827,7 +828,7 @@ class CONTENT_EXPORT RenderFrameImpl
   // AccessibilityModeOff.
   RendererAccessibility* renderer_accessibility_;
 
-#if defined(OS_MACOSX) || defined(OS_ANDROID)
+#if defined(OS_MACOSX) || defined(OS_ANDROID) || defined(OS_TIZEN)
   // The external popup for the currently showing select popup.
   scoped_ptr<ExternalPopupMenu> external_popup_menu_;
 #endif

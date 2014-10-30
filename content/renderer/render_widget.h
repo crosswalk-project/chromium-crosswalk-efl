@@ -365,7 +365,7 @@ class CONTENT_EXPORT RenderWidget
       float device_scale_factor,
       const gfx::Point& root_layer_offset,
       float root_layer_scale);
-#if defined(OS_MACOSX) || defined(OS_ANDROID)
+#if defined(OS_MACOSX) || defined(OS_ANDROID) || defined(OS_TIZEN)
   void SetExternalPopupOriginAdjustmentsForEmulation(
       ExternalPopupMenu* popup, ScreenMetricsEmulator* emulator);
 #endif

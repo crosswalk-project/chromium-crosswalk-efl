@@ -572,7 +572,7 @@ void RenderWidget::SetScreenMetricsEmulationParameters(
   NOTREACHED();
 }
 
-#if defined(OS_MACOSX) || defined(OS_ANDROID)
+#if defined(OS_MACOSX) || defined(OS_ANDROID) || defined(OS_TIZEN)
 void RenderWidget::SetExternalPopupOriginAdjustmentsForEmulation(
     ExternalPopupMenu* popup, ScreenMetricsEmulator* emulator) {
   popup->SetOriginScaleAndOffsetForEmulation(

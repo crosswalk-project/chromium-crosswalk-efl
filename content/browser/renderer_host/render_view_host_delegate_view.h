@@ -65,7 +65,7 @@ class CONTENT_EXPORT RenderViewHostDelegateView {
   // retrieved by doing a Shift-Tab.
   virtual void TakeFocus(bool reverse) {}
 
-#if defined(OS_MACOSX) || defined(OS_ANDROID)
+#if defined(OS_MACOSX) || defined(OS_ANDROID) || defined(OS_TIZEN)
   // Shows a popup menu with the specified items.
   // This method should call RenderFrameHost::DidSelectPopupMenuItem[s]() or
   // RenderFrameHost::DidCancelPopupMenu() based on the user action.
