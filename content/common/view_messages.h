@@ -1382,6 +1382,9 @@ IPC_MESSAGE_ROUTED4(ViewHostMsg_TextInputTypeChanged,
                     bool /* can_compose_inline in the focused node */,
                     int /* flags in the focused node */)
 
+IPC_MESSAGE_ROUTED1(ViewHostMsg_TextInputInFormStateChanged,
+                    bool /* is in form Tag */)
+
 // Required for updating text input state.
 IPC_MESSAGE_ROUTED1(ViewHostMsg_TextInputStateChanged,
                     ViewHostMsg_TextInputState_Params /* input state params */)

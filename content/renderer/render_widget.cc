@@ -405,6 +405,7 @@ RenderWidget::RenderWidget(blink::WebPopupType popup_type,
       text_input_type_(ui::TEXT_INPUT_TYPE_NONE),
       text_input_mode_(ui::TEXT_INPUT_MODE_DEFAULT),
       text_input_flags_(0),
+      text_input_was_in_form_tag_(false),
       can_compose_inline_(true),
       popup_type_(popup_type),
       pending_window_rect_count_(0),
@@ -1814,6 +1815,13 @@ void RenderWidget::UpdateTextInputState(ShowIme show_ime,
     new_info = webwidget_->textInputInfo();
 
   bool new_can_compose_inline = CanComposeInline();
+
+  bool is_in_form_tag = new_info.isInFormTag;
+  if (text_input_was_in_form_tag_ != is_in_form_tag) {
+    Send(new ViewHostMsg_TextInputInFormStateChanged(routing_id(),
+                                                     is_in_form_tag));
+    text_input_was_in_form_tag_ = is_in_form_tag;
+  }
 
   // Only sends text input params if they are changed or if the ime should be
   // shown.

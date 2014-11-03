@@ -661,6 +661,9 @@ class CONTENT_EXPORT RenderWidget
   // Stores the current text input flags of |webwidget_|.
   int text_input_flags_;
 
+  // Indicates if current input is in form tag.
+  bool text_input_was_in_form_tag_;
+
   // Stores the current type of composition text rendering of |webwidget_|.
   bool can_compose_inline_;
 
