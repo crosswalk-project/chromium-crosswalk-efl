@@ -199,8 +199,11 @@ bool AdjustOOMScore(ProcessId process, int score) {
 }
 
 bool UncheckedMalloc(size_t size, void** result) {
+  // FIXME: Since we do not use tcmalloc for chromium-efl in a consistent
+  // manner, we should either fix it or disable tcmalloc.
 #if defined(MEMORY_TOOL_REPLACES_ALLOCATOR) || \
-    (!defined(LIBC_GLIBC) && !defined(USE_TCMALLOC))
+    (!defined(LIBC_GLIBC) && !defined(USE_TCMALLOC) || \
+    defined(USE_EFL))
   *result = malloc(size);
 #elif defined(LIBC_GLIBC) && !defined(USE_TCMALLOC)
   *result = __libc_malloc(size);
