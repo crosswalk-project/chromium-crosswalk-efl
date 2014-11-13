@@ -175,6 +175,10 @@
 #include "content/common/media/media_stream_messages.h"
 #endif
 
+#if defined(TIZEN_MULTIMEDIA_SUPPORT)
+#include "content/browser/media/tizen/browser_demuxer_tizen.h"
+#endif
+
 extern bool g_exited_main_message_loop;
 
 namespace content {
@@ -795,7 +799,10 @@ void RenderProcessHostImpl::CreateMessageFilters() {
   browser_cdm_manager_ = new BrowserCdmManager(GetID(), NULL);
   AddFilter(browser_cdm_manager_.get());
 #endif
-
+#if defined(TIZEN_MULTIMEDIA_SUPPORT)
+  browser_demuxer_tizen_ = new BrowserDemuxerTizen();
+  AddFilter(browser_demuxer_tizen_.get());
+#endif
   WebSocketDispatcherHost::GetRequestContextCallback
       websocket_request_context_callback(
           base::Bind(&GetRequestContext, request_context,

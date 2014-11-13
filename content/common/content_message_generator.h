@@ -63,6 +63,10 @@
 #include "content/common/websocket_messages.h"
 #include "content/common/worker_messages.h"
 
+#if defined(TIZEN_MULTIMEDIA_SUPPORT)
+#include "content/common/media/tizen/media_player_messages_tizen.h"
+#endif
+
 #if defined(ENABLE_WEBRTC)
 #include "content/common/p2p_messages.h"
 #endif

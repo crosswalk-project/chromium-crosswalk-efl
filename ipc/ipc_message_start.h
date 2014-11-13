@@ -73,6 +73,9 @@ enum IPCMessageStart {
   MetroViewerMsgStart,
   CCMsgStart,
   MediaPlayerMsgStart,
+#if defined(TIZEN_MULTIMEDIA_SUPPORT)
+  MediaPlayerTizenMsgStart,
+#endif
   TracingMsgStart,
   PeerConnectionTrackerMsgStart,
   VisitedLinkMsgStart,

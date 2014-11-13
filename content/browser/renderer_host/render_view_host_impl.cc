@@ -97,6 +97,10 @@
 #include "xwalk/tizen/browser/media/media_webcontents_observer.h"
 #endif
 
+#if defined(TIZEN_MULTIMEDIA_SUPPORT)
+#include "content/browser/media/media_web_contents_observer_tizen.h"
+#endif
+
 using base::TimeDelta;
 using blink::WebConsoleMessage;
 using blink::WebDragOperation;
@@ -226,6 +230,10 @@ RenderViewHostImpl::RenderViewHostImpl(
 
 #if defined(OS_TIZEN) && defined(ENABLE_MURPHY)
   media_webcontents_observer_.reset(new tizen::MediaWebContentsObserver(this));
+#endif
+
+#if defined(TIZEN_MULTIMEDIA_SUPPORT)
+  media_web_contents_observer_tizen_.reset(new MediaWebContentsObserverTizen(this));
 #endif
 }
 

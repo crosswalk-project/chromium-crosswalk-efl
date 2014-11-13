@@ -69,6 +69,9 @@ struct SupportedTypeInfo {
   const CodecInfo** codecs;
 };
 
+// Gst packages on Tizen doesn't support WebM decoding as vp8 and vp9 decoders
+// are not present on in it. Hence WebM support of MSE is removed on Tizen.
+#if !defined(TIZEN_MULTIMEDIA_SUPPORT)
 static const CodecInfo kVP8CodecInfo = { "vp8", CodecInfo::VIDEO, NULL,
                                          CodecInfo::HISTOGRAM_VP8 };
 static const CodecInfo kVP9CodecInfo = { "vp9", CodecInfo::VIDEO, NULL,
@@ -97,6 +100,7 @@ static StreamParser* BuildWebMParser(
     const LogCB& log_cb) {
   return new WebMStreamParser();
 }
+#endif
 
 #if defined(USE_PROPRIETARY_CODECS)
 // AAC Object Type IDs that Chrome supports.
@@ -230,7 +234,15 @@ static StreamParser* BuildMP2TParser(
 #endif
 #endif
 
-
+#if defined(TIZEN_MULTIMEDIA_SUPPORT)
+// On Tizen MediaSource GST Port only H264 and AAC are supported right now.
+static const SupportedTypeInfo kSupportedTypeInfo[] = {
+  { "audio/aac", &BuildADTSParser, kAudioADTSCodecs },
+  { "video/mp4", &BuildMP4Parser, kVideoMP4Codecs },
+  { "audio/mp4", &BuildMP4Parser, kAudioMP4Codecs },
+  { "audio/mpeg", &BuildMP3Parser, kAudioMP3Codecs },
+};
+#else
 static const SupportedTypeInfo kSupportedTypeInfo[] = {
   { "video/webm", &BuildWebMParser, kVideoWebMCodecs },
   { "audio/webm", &BuildWebMParser, kAudioWebMCodecs },
@@ -244,6 +256,7 @@ static const SupportedTypeInfo kSupportedTypeInfo[] = {
 #endif
 #endif
 };
+#endif
 
 // Verify that |codec_info| is supported on this platform.
 //

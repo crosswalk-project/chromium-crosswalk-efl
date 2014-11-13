@@ -84,6 +84,9 @@ class PushPermissionDispatcher;
 class RendererAccessibility;
 class RendererCdmManager;
 class RendererMediaPlayerManager;
+#if defined(TIZEN_MULTIMEDIA_SUPPORT)
+class RendererMediaPlayerManagerTizen;
+#endif
 class RendererPpapiHost;
 class RenderFrameObserver;
 class RenderViewImpl;
@@ -682,6 +685,10 @@ class CONTENT_EXPORT RenderFrameImpl
   tizen::RendererMediaPlayerManager* GetTizenMediaPlayerManager();
 #endif
 
+#if defined(TIZEN_MULTIMEDIA_SUPPORT)
+  RendererMediaPlayerManagerTizen* GetMediaPlayerTizenManager();
+#endif
+
 #if defined(ENABLE_BROWSER_CDMS)
   RendererCdmManager* GetCdmManager();
 #endif
@@ -774,6 +781,10 @@ class CONTENT_EXPORT RenderFrameImpl
   RendererMediaPlayerManager* media_player_manager_;
 #elif defined(OS_TIZEN) && defined(ENABLE_MURPHY)
   tizen::RendererMediaPlayerManager* media_player_manager_;
+#endif
+
+#if defined(TIZEN_MULTIMEDIA_SUPPORT)
+  RendererMediaPlayerManagerTizen* media_player_manager_tizen_;
 #endif
 
 #if defined(ENABLE_BROWSER_CDMS)

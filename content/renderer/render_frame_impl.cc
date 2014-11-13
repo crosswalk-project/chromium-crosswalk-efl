@@ -167,6 +167,11 @@
 #include "xwalk/tizen/renderer/media/mediaplayer_impl.h"
 #endif
 
+#if defined(TIZEN_MULTIMEDIA_SUPPORT)
+#include "content/renderer/media/tizen/renderer_media_player_manager_tizen.h"
+#include "media/base/tizen/webmediaplayer_tizen.h"
+#endif
+
 using blink::WebContextMenuData;
 using blink::WebData;
 using blink::WebDataSource;
@@ -583,6 +588,9 @@ RenderFrameImpl::RenderFrameImpl(RenderViewImpl* render_view, int routing_id)
       midi_dispatcher_(NULL),
 #if defined(OS_ANDROID)
       media_player_manager_(NULL),
+#endif
+#if defined(TIZEN_MULTIMEDIA_SUPPORT)
+      media_player_manager_tizen_(NULL),
 #endif
 #if defined(ENABLE_BROWSER_CDMS)
       cdm_manager_(NULL),
@@ -1740,6 +1748,9 @@ blink::WebMediaPlayer* RenderFrameImpl::createMediaPlayer(
 
 #if defined(OS_ANDROID)
   return CreateAndroidWebMediaPlayer(url, client, initial_cdm);
+#elif defined(TIZEN_MULTIMEDIA_SUPPORT)
+  return new media::WebMediaPlayerTizen(GetMediaPlayerTizenManager(),
+      frame, client, weak_factory_.GetWeakPtr());
 #else
   RenderThreadImpl* render_thread = RenderThreadImpl::current();
   media::WebMediaPlayerParams params(
@@ -3433,6 +3444,12 @@ void RenderFrameImpl::OnStop() {
 }
 
 void RenderFrameImpl::WasHidden() {
+
+#if defined(TIZEN_MULTIMEDIA_SUPPORT)
+  if (media_player_manager_tizen_)
+    media_player_manager_tizen_->PausePlayingPlayers();
+#endif
+
   FOR_EACH_OBSERVER(RenderFrameObserver, observers_, WasHidden());
 }
 
@@ -3642,6 +3659,12 @@ void RenderFrameImpl::didStopLoading() {
   TRACE_EVENT1("navigation", "RenderFrameImpl::didStopLoading",
                "id", routing_id_);
   render_view_->FrameDidStopLoading(frame_);
+
+#if defined(TIZEN_MULTIMEDIA_SUPPORT)
+  if (IsHidden() && media_player_manager_tizen_)
+    media_player_manager_tizen_->PausePlayingPlayers();
+#endif
+
   Send(new FrameHostMsg_DidStopLoading(routing_id_));
 }
 
@@ -4221,6 +4244,14 @@ RendererMediaPlayerManager* RenderFrameImpl::GetMediaPlayerManager() {
 }
 
 #endif  // defined(OS_ANDROID)
+
+#if defined(TIZEN_MULTIMEDIA_SUPPORT)
+RendererMediaPlayerManagerTizen* RenderFrameImpl::GetMediaPlayerTizenManager() {
+  if (!media_player_manager_tizen_)
+    media_player_manager_tizen_ = new RendererMediaPlayerManagerTizen(this);
+  return media_player_manager_tizen_;
+}
+#endif
 
 #if defined(ENABLE_BROWSER_CDMS)
 RendererCdmManager* RenderFrameImpl::GetCdmManager() {

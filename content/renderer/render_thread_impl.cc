@@ -160,6 +160,10 @@
 #include "content/renderer/media/webrtc_identity_service.h"
 #endif
 
+#if defined(TIZEN_MULTIMEDIA_SUPPORT)
+#include "content/renderer/media/tizen/renderer_demuxer_tizen.h"
+#endif
+
 using base::ThreadRestrictions;
 using blink::WebDocument;
 using blink::WebFrame;
@@ -1556,6 +1560,9 @@ RenderThreadImpl::GetMediaThreadTaskRunner() {
 
 #if defined(OS_ANDROID)
     renderer_demuxer_ = new RendererDemuxerAndroid();
+    AddFilter(renderer_demuxer_.get());
+#elif defined(TIZEN_MULTIMEDIA_SUPPORT)
+    renderer_demuxer_ = new RendererDemuxerTizen();
     AddFilter(renderer_demuxer_.get());
 #endif
   }

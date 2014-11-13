@@ -95,6 +95,9 @@ class MidiMessageFilter;
 class NetInfoDispatcher;
 class P2PSocketDispatcher;
 class PeerConnectionTracker;
+#if defined(TIZEN_MULTIMEDIA_SUPPORT)
+class RendererDemuxerTizen;
+#endif
 class RenderProcessObserver;
 class RendererBlinkPlatformImpl;
 class RendererDemuxerAndroid;
@@ -270,6 +273,10 @@ class CONTENT_EXPORT RenderThreadImpl : public RenderThread,
 
 #if defined(OS_ANDROID)
   RendererDemuxerAndroid* renderer_demuxer() {
+    return renderer_demuxer_.get();
+  }
+#elif defined(TIZEN_MULTIMEDIA_SUPPORT)
+  RendererDemuxerTizen* renderer_demuxer() {
     return renderer_demuxer_.get();
   }
 #endif
@@ -473,7 +480,10 @@ class CONTENT_EXPORT RenderThreadImpl : public RenderThread,
   scoped_refptr<MidiMessageFilter> midi_message_filter_;
 #if defined(OS_ANDROID)
   scoped_refptr<RendererDemuxerAndroid> renderer_demuxer_;
+#elif defined(TIZEN_MULTIMEDIA_SUPPORT)
+  scoped_refptr<RendererDemuxerTizen> renderer_demuxer_;
 #endif
+
   scoped_refptr<DevToolsAgentFilter> devtools_agent_message_filter_;
 
 #if defined(ENABLE_WEBRTC)

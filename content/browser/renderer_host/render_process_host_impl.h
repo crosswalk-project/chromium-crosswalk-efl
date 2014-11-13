@@ -41,6 +41,9 @@ namespace content {
 class AudioRendererHost;
 class BrowserCdmManager;
 class BrowserDemuxerAndroid;
+#if defined(TIZEN_MULTIMEDIA_SUPPORT)
+class BrowserDemuxerTizen;
+#endif
 class GpuMessageFilter;
 class MessagePortMessageFilter;
 class MojoApplicationHost;
@@ -228,6 +231,12 @@ class CONTENT_EXPORT RenderProcessHostImpl
 #if defined(OS_ANDROID)
   const scoped_refptr<BrowserDemuxerAndroid>& browser_demuxer_android() {
     return browser_demuxer_android_;
+  }
+#endif
+
+#if defined(TIZEN_MULTIMEDIA_SUPPORT)
+  const scoped_refptr<BrowserDemuxerTizen>& browser_demuxer_tizen() {
+    return browser_demuxer_tizen_;
   }
 #endif
 
@@ -443,6 +452,10 @@ class CONTENT_EXPORT RenderProcessHostImpl
 
 #if defined(OS_ANDROID)
   scoped_refptr<BrowserDemuxerAndroid> browser_demuxer_android_;
+#endif
+
+#if defined(TIZEN_MULTIMEDIA_SUPPORT)
+  scoped_refptr<BrowserDemuxerTizen> browser_demuxer_tizen_;
 #endif
 
 #if defined(ENABLE_BROWSER_CDMS)

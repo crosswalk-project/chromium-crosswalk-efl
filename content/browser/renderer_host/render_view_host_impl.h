@@ -55,6 +55,9 @@ class AXTree;
 namespace content {
 
 class MediaWebContentsObserver;
+#if defined(TIZEN_MULTIMEDIA_SUPPORT)
+class MediaWebContentsObserverTizen;
+#endif
 class ChildProcessSecurityPolicyImpl;
 class PageState;
 class RenderWidgetHostDelegate;
@@ -302,6 +305,12 @@ class CONTENT_EXPORT RenderViewHostImpl
   }
 #endif
 
+#if defined(TIZEN_MULTIMEDIA_SUPPORT)
+  MediaWebContentsObserverTizen* media_web_contents_observer_tizen() {
+    return media_web_contents_observer_tizen_.get();
+  }
+#endif
+
   int main_frame_routing_id() const {
     return main_frame_routing_id_;
   }
@@ -457,6 +466,9 @@ class CONTENT_EXPORT RenderViewHostImpl
 #if defined(ENABLE_BROWSER_CDMS)
   // Manages all the media player and CDM managers and forwards IPCs to them.
   scoped_ptr<MediaWebContentsObserver> media_web_contents_observer_;
+#endif
+#if defined(TIZEN_MULTIMEDIA_SUPPORT)
+  scoped_ptr<MediaWebContentsObserverTizen> media_web_contents_observer_tizen_;
 #endif
 
 #if defined(OS_TIZEN) && defined(ENABLE_MURPHY)

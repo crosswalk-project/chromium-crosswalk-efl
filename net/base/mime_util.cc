@@ -348,13 +348,17 @@ static const char* const common_media_types[] = {
   // Ogg.
   "audio/ogg",
   "application/ogg",
+#if !defined(TIZEN_MULTIMEDIA_SUPPORT)  // Tizen doesn't support Ogg Theora.
 #if !defined(OS_ANDROID)  // Android doesn't support Ogg Theora.
   "video/ogg",
 #endif
+#endif
 
   // WebM.
+#if !defined(TIZEN_MULTIMEDIA_SUPPORT)
   "video/webm",
   "audio/webm",
+#endif
 
   // Wav.
   "audio/wav",
