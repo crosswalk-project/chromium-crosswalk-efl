@@ -86,6 +86,9 @@
 #include "content/renderer/media/android/audio_decoder_android.h"
 #include "webkit/common/gpu/webgraphicscontext3d_in_process_command_buffer_impl.h"
 #endif
+#if defined(TIZEN_MULTIMEDIA_SUPPORT)
+#include "content/renderer/media/android/audio_decoder_android.h"
+#endif
 
 #if defined(OS_MACOSX)
 #include "content/common/mac/font_descriptor.h"
@@ -755,7 +758,7 @@ WebAudioDevice* RendererBlinkPlatformImpl::createAudioDevice(
   return new RendererWebAudioDeviceImpl(params, callback, session_id);
 }
 
-#if defined(OS_ANDROID)
+#if defined(OS_ANDROID) || defined(TIZEN_MULTIMEDIA_SUPPORT)
 bool RendererBlinkPlatformImpl::loadAudioResource(
     blink::WebAudioBus* destination_bus,
     const char* audio_file_data,
