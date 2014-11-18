@@ -98,7 +98,7 @@ bool ContentRendererClient::AllowPopup() {
   return false;
 }
 
-#ifdef OS_ANDROID
+#if defined(OS_ANDROID) || defined(USE_EFL)
 bool ContentRendererClient::HandleNavigation(
     RenderFrame* render_frame,
     DocumentState* document_state,

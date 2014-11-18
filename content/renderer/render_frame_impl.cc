@@ -3740,7 +3740,7 @@ void RenderFrameImpl::OnCommitNavigation(
 WebNavigationPolicy RenderFrameImpl::DecidePolicyForNavigation(
     RenderFrame* render_frame,
     const NavigationPolicyInfo& info) {
-#ifdef OS_ANDROID
+#if defined(OS_ANDROID) || defined(USE_EFL)
   // The handlenavigation API is deprecated and will be removed once
   // crbug.com/325351 is resolved.
   if (info.urlRequest.url() != GURL(kSwappedOutURL) &&
