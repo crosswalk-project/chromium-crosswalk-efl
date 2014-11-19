@@ -22,7 +22,7 @@ bool SyntheticGestureParams::IsGestureSourceTypeSupported(
 
   // These values should change very rarely. We thus hard-code them here rather
   // than having to query the brower's SyntheticGestureTarget.
-#if defined(USE_AURA)
+#if defined(USE_AURA) || defined(USE_EFL)
   return gesture_source_type == TOUCH_INPUT ||
          gesture_source_type == MOUSE_INPUT;
 #elif defined(OS_ANDROID)

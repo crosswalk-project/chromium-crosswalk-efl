@@ -596,7 +596,7 @@ void GpuDataManagerImplPrivate::AppendRendererCommandLine(
     command_line->AppendSwitch(switches::kDisableWebRtcHWEncoding);
 #endif
 
-#if defined(USE_AURA)
+#if defined(USE_AURA) || defined(USE_EFL)
   if (!CanUseGpuBrowserCompositor())
     command_line->AppendSwitch(switches::kDisableGpuCompositing);
 #endif
@@ -711,7 +711,7 @@ void GpuDataManagerImplPrivate::UpdateRendererWebPrefs(
           display_count_ > 1))
     prefs->gl_multisampling_enabled = false;
 
-#if defined(USE_AURA)
+#if defined(USE_AURA) || defined(USE_EFL)
   if (!CanUseGpuBrowserCompositor()) {
     prefs->accelerated_2d_canvas_enabled = false;
     prefs->pepper_3d_enabled = false;

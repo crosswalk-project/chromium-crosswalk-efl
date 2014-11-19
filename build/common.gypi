@@ -27,6 +27,9 @@
             # Whether or not we are using the Aura windowing framework.
             'use_aura%': 0,
 
+            # Whether or not we are using EFL windowing framework
+            'use_efl%': 0,
+
             # Whether or not we are building the Ash shell.
             'use_ash%': 0,
 
@@ -52,6 +55,7 @@
           'chromeos%': '<(chromeos)',
           'chromecast%': '<(chromecast)',
           'use_aura%': '<(use_aura)',
+          'use_efl%': '<(use_efl)',
           'use_ash%': '<(use_ash)',
           'use_cras%': '<(use_cras)',
           'use_ozone%': '<(use_ozone)',
@@ -135,6 +139,7 @@
         'chromecast%': '<(chromecast)',
         'desktop_linux%': '<(desktop_linux)',
         'use_aura%': '<(use_aura)',
+        'use_efl%': '<(use_efl)',
         'use_ash%': '<(use_ash)',
         'use_cras%': '<(use_cras)',
         'use_ozone%': '<(use_ozone)',
@@ -283,6 +288,7 @@
       'toolkit_views%': '<(toolkit_views)',
       'desktop_linux%': '<(desktop_linux)',
       'use_aura%': '<(use_aura)',
+      'use_efl%': '<(use_efl)',
       'use_ash%': '<(use_ash)',
       'use_cras%': '<(use_cras)',
       'use_libpci%': '<(use_libpci)',
@@ -1090,6 +1096,7 @@
     'toolkit_views%': '<(toolkit_views)',
     'ui_compositor_image_transport%': '<(ui_compositor_image_transport)',
     'use_aura%': '<(use_aura)',
+    'use_efl%': '<(use_efl)',
     'use_ash%': '<(use_ash)',
     'use_cras%': '<(use_cras)',
     'use_libpci%': '<(use_libpci)',

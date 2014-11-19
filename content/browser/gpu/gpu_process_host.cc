@@ -104,7 +104,7 @@ static const char* const kSwitchNames[] = {
   switches::kDisableRemoteCoreAnimation,
   switches::kEnableSandboxLogging,
 #endif
-#if defined(USE_AURA)
+#if defined(USE_AURA) || defined(USE_EFL)
   switches::kUIPrioritizeInGpuProcess,
 #endif
 #if defined(USE_OZONE)
@@ -223,7 +223,7 @@ class GpuSandboxedProcessLauncherDelegate
     // Block this DLL even if it is not loaded by the browser process.
     policy->AddDllToUnload(L"cmsetac.dll");
 
-#ifdef USE_AURA
+#if defined(USE_AURA) || defined(USE_EFL)
     // GPU also needs to add sections to the browser for aura
     // TODO(jschuh): refactor the GPU channel to remove this. crbug.com/128786
     result = policy->AddRule(sandbox::TargetPolicy::SUBSYS_HANDLES,

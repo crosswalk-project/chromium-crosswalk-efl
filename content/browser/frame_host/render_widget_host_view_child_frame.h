@@ -69,7 +69,7 @@ class CONTENT_EXPORT RenderWidgetHostViewChildFrame
                             bool can_compose_inline,
                             int flags) override;
   void ImeCancelComposition() override;
-#if defined(OS_MACOSX) || defined(USE_AURA) || defined(OS_ANDROID)
+#if defined(OS_MACOSX) || defined(USE_AURA) || defined(OS_ANDROID) || defined(USE_EFL)
   void ImeCompositionRangeChanged(
       const gfx::Range& range,
       const std::vector<gfx::Rect>& character_bounds) override;
@@ -99,10 +99,10 @@ class CONTENT_EXPORT RenderWidgetHostViewChildFrame
   void GetScreenInfo(blink::WebScreenInfo* results) override;
   gfx::Rect GetBoundsInRootWindow() override;
   gfx::GLSurfaceHandle GetCompositingSurface() override;
-#if defined(USE_AURA)
+#if defined(USE_AURA) || defined(USE_EFL)
   void ProcessAckedTouchEvent(const TouchEventWithLatencyInfo& touch,
                               InputEventAckState ack_result) override;
-#endif  // defined(USE_AURA)
+#endif  // defined(USE_AURA) || defined(USE_EFL)
   bool LockMouse() override;
   void UnlockMouse() override;
 

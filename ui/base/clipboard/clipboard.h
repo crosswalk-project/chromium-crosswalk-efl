@@ -104,7 +104,7 @@ class UI_BASE_EXPORT Clipboard : NON_EXPORTED_BASE(public base::ThreadChecker) {
     explicit FormatType(UINT native_format);
     FormatType(UINT native_format, LONG index);
     FORMATETC data_;
-#elif defined(USE_AURA) || defined(OS_ANDROID)
+#elif defined(USE_AURA) || defined(OS_ANDROID) || defined(USE_EFL)
     explicit FormatType(const std::string& native_format);
     std::string data_;
 #elif defined(OS_MACOSX)

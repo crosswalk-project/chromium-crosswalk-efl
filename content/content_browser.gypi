@@ -1898,6 +1898,12 @@
         ['exclude', '^browser/renderer_host/ui_events_helper.h'],
       ],
     }],
+    ['use_efl==1', {
+      'sources/': [
+        ['include', '^browser/renderer_host/ui_events_helper.cc'],
+        ['include', '^browser/renderer_host/ui_events_helper.h'],
+      ],
+    }],
     ['enable_plugins==1', {
       'dependencies': [
         '../ppapi/ppapi_internal.gyp:ppapi_ipc',

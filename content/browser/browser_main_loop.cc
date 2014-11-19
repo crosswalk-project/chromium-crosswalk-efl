@@ -59,7 +59,7 @@
 #include "net/ssl/ssl_config_service.h"
 #include "ui/base/clipboard/clipboard.h"
 
-#if defined(USE_AURA) || (defined(OS_MACOSX) && !defined(OS_IOS))
+#if defined(USE_AURA) || (defined(OS_MACOSX) && !defined(OS_IOS)) || defined(USE_EFL)
 #include "content/browser/compositor/image_transport_factory.h"
 #endif
 
@@ -231,7 +231,7 @@ void OnStoppedStartupTracing(const base::FilePath& trace_file) {
   VLOG(0) << "Completed startup tracing to " << trace_file.value();
 }
 
-#if defined(USE_AURA)
+#if defined(USE_AURA) || defined(USE_EFL)
 bool ShouldInitializeBrowserGpuChannelAndTransportSurface() {
   return true;
 }
@@ -808,7 +808,7 @@ void BrowserMainLoop::ShutdownThreadsAndCleanUp() {
     resource_dispatcher_host_.get()->Shutdown();
   }
 
-#if defined(USE_AURA) || defined(OS_MACOSX)
+#if defined(USE_AURA) || defined(OS_MACOSX) || defined(USE_EFL)
   if (ShouldInitializeBrowserGpuChannelAndTransportSurface()) {
     TRACE_EVENT0("shutdown",
                  "BrowserMainLoop::Subsystem:ImageTransportFactory");
@@ -1005,7 +1005,7 @@ int BrowserMainLoop::BrowserThreadsStarted() {
 
   bool always_uses_gpu = true;
   bool established_gpu_channel = false;
-#if defined(USE_AURA) || defined(OS_MACOSX)
+#if defined(USE_AURA) || defined(OS_MACOSX) || defined(USE_EFL)
   if (ShouldInitializeBrowserGpuChannelAndTransportSurface()) {
     established_gpu_channel = true;
     if (!GpuDataManagerImpl::GetInstance()->CanUseGpuBrowserCompositor()) {
@@ -1127,13 +1127,13 @@ bool BrowserMainLoop::InitializeToolkit() {
     PLOG(FATAL);
 #endif
 
-#if defined(USE_AURA)
-
-#if defined(USE_X11)
+#if defined(USE_X11) && (defined(USE_AURA) || defined(USE_EFL))
   if (!gfx::GetXDisplay())
     return false;
 #endif
 
+
+#if defined(USE_AURA)
   // Env creates the compositor. Aura widgets need the compositor to be created
   // before they can be initialized by the browser.
   aura::Env::CreateInstance(true);

@@ -23,7 +23,7 @@
 #import "content/browser/renderer_host/render_widget_host_view_mac_dictionary_helper.h"
 #endif
 
-#if defined(USE_AURA)
+#if defined(USE_AURA) || defined(USE_EFL)
 #include "content/browser/renderer_host/ui_events_helper.h"
 #endif
 
@@ -31,7 +31,7 @@ namespace content {
 
 namespace {
 
-#if defined(USE_AURA)
+#if defined(USE_AURA) || defined(USE_EFL)
 blink::WebGestureEvent CreateFlingCancelEvent(double time_stamp) {
   blink::WebGestureEvent gesture_event;
   gesture_event.timeStampSeconds = time_stamp;
@@ -39,7 +39,7 @@ blink::WebGestureEvent CreateFlingCancelEvent(double time_stamp) {
   gesture_event.sourceDevice = blink::WebGestureDeviceTouchscreen;
   return gesture_event;
 }
-#endif  // defined(USE_AURA)
+#endif  // defined(USE_AURA) || defined(USE_EFL)
 
 }  // namespace
 
@@ -51,16 +51,16 @@ RenderWidgetHostViewGuest::RenderWidgetHostViewGuest(
       // |guest| is NULL during test.
       guest_(guest ? guest->AsWeakPtr() : base::WeakPtr<BrowserPluginGuest>()),
       platform_view_(platform_view) {
-#if defined(USE_AURA)
+#if defined(USE_AURA) || defined(USE_EFL)
   gesture_recognizer_.reset(ui::GestureRecognizer::Create());
   gesture_recognizer_->AddGestureEventHelper(this);
-#endif  // defined(USE_AURA)
+#endif  // defined(USE_AURA) || defined(USE_EFL)
 }
 
 RenderWidgetHostViewGuest::~RenderWidgetHostViewGuest() {
-#if defined(USE_AURA)
+#if defined(USE_AURA) || defined(USE_EFL)
   gesture_recognizer_->RemoveGestureEventHelper(this);
-#endif  // defined(USE_AURA)
+#endif  // defined(USE_AURA) || defined(USE_EFL)
 }
 
 bool RenderWidgetHostViewGuest::OnMessageReceivedFromEmbedder(
@@ -125,7 +125,7 @@ bool RenderWidgetHostViewGuest::HasFocus() const {
   return guest_->focused();
 }
 
-#if defined(USE_AURA)
+#if defined(USE_AURA) || defined(USE_EFL)
 void RenderWidgetHostViewGuest::ProcessAckedTouchEvent(
     const TouchEventWithLatencyInfo& touch, InputEventAckState ack_result) {
   // TODO(fsamuel): Currently we will only take this codepath if the guest has
@@ -307,7 +307,7 @@ void RenderWidgetHostViewGuest::ImeCancelComposition() {
   rwhv->ImeCancelComposition();
 }
 
-#if defined(OS_MACOSX) || defined(USE_AURA)
+#if defined(OS_MACOSX) || defined(USE_AURA) || defined(USE_EFL)
 void RenderWidgetHostViewGuest::ImeCompositionRangeChanged(
     const gfx::Range& range,
     const std::vector<gfx::Rect>& character_bounds) {
@@ -498,7 +498,7 @@ void RenderWidgetHostViewGuest::DispatchCancelTouchEvent(
 
 bool RenderWidgetHostViewGuest::ForwardGestureEventToRenderer(
     ui::GestureEvent* gesture) {
-#if defined(USE_AURA)
+#if defined(USE_AURA) || defined(USE_EFL)
   if (!host_)
     return false;
 

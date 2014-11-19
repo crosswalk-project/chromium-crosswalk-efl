@@ -1141,7 +1141,7 @@ void RenderWidget::OnHandleInputEvent(const blink::WebInputEvent* input_event,
   // of a processed touch end event.
   if (input_event->type == WebInputEvent::TouchEnd && processed)
     UpdateTextInputState(SHOW_IME_IF_NEEDED, FROM_NON_IME);
-#elif defined(USE_AURA)
+#elif defined(USE_AURA) || defined(USE_EFL)
   // Show the virtual keyboard if enabled and a user gesture triggers a focus
   // change.
   if (processed && (input_event->type == WebInputEvent::TouchEnd ||
@@ -1247,7 +1247,7 @@ void RenderWidget::willBeginCompositorFrame() {
   // enable GPU acceleration so they need to be called before any painting
   // is done.
   UpdateTextInputType();
-#if defined(OS_ANDROID)
+#if defined(OS_ANDROID) || defined(USE_EFL)
   UpdateTextInputState(NO_SHOW_IME, FROM_NON_IME);
 #endif
   UpdateSelectionBounds();
@@ -1542,7 +1542,7 @@ void RenderWidget::OnImeSetComposition(
     // sure we are in a consistent state.
     Send(new InputHostMsg_ImeCancelComposition(routing_id()));
   }
-#if defined(OS_MACOSX) || defined(USE_AURA) || defined(OS_ANDROID)
+#if defined(OS_MACOSX) || defined(USE_AURA) || defined(OS_ANDROID) || defined(USE_EFL)
   UpdateCompositionInfo(true);
 #endif
 }
@@ -1561,7 +1561,7 @@ void RenderWidget::OnImeConfirmComposition(const base::string16& text,
   else
     webwidget_->confirmComposition(WebWidget::DoNotKeepSelection);
   handling_input_event_ = false;
-#if defined(OS_MACOSX) || defined(USE_AURA) || defined(OS_ANDROID)
+#if defined(OS_MACOSX) || defined(USE_AURA) || defined(OS_ANDROID) || defined(USE_EFL)
   UpdateCompositionInfo(true);
 #endif
 }
@@ -1612,7 +1612,7 @@ void RenderWidget::showImeIfNeeded() {
 }
 
 void RenderWidget::OnShowImeIfNeeded() {
-#if defined(OS_ANDROID) || defined(USE_AURA)
+#if defined(OS_ANDROID) || defined(USE_AURA) || defined(USE_EFL)
   UpdateTextInputState(SHOW_IME_IF_NEEDED, FROM_NON_IME);
 #endif
 }
@@ -1754,7 +1754,7 @@ void RenderWidget::FinishHandlingImeEvent() {
   // are ignored. These must explicitly be updated once finished handling the
   // ime event.
   UpdateSelectionBounds();
-#if defined(OS_ANDROID)
+#if defined(OS_ANDROID) || defined(USE_EFL)
   UpdateTextInputState(NO_SHOW_IME, FROM_IME);
 #endif
 }
@@ -1799,7 +1799,7 @@ void RenderWidget::UpdateTextInputType() {
   }
 }
 
-#if defined(OS_ANDROID) || defined(USE_AURA)
+#if defined(OS_ANDROID) || defined(USE_AURA) || defined(USE_EFL)
 void RenderWidget::UpdateTextInputState(ShowIme show_ime,
                                         ChangeSource change_source) {
   if (handling_ime_event_)
@@ -1843,7 +1843,9 @@ void RenderWidget::UpdateTextInputState(ShowIme show_ime,
     p.composition_end = new_info.compositionEnd;
     p.can_compose_inline = new_can_compose_inline;
     p.show_ime_if_needed = (show_ime == SHOW_IME_IF_NEEDED);
-#if defined(USE_AURA)
+
+    // Not sure if we should use aura or android part, enabling aura part right now
+#if defined(USE_AURA) || defined(USE_EFL)
     p.is_non_ime_change = true;
 #endif
 #if defined(OS_ANDROID)
@@ -1853,7 +1855,7 @@ void RenderWidget::UpdateTextInputState(ShowIme show_ime,
       IncrementOutstandingImeEventAcks();
     text_field_is_dirty_ = false;
 #endif
-#if defined(USE_AURA)
+#if defined(USE_AURA) || defined(USE_EFL)
     Send(new ViewHostMsg_TextInputTypeChanged(routing_id(),
                                               new_type,
                                               text_input_mode_,
@@ -1900,7 +1902,7 @@ void RenderWidget::UpdateSelectionBounds() {
     }
   }
 
-#if defined(OS_MACOSX) || defined(USE_AURA) || defined(OS_ANDROID)
+#if defined(OS_MACOSX) || defined(USE_AURA) || defined(OS_ANDROID) || defined(USE_EFL)
   UpdateCompositionInfo(false);
 #endif
 }
@@ -1955,7 +1957,7 @@ ui::TextInputType RenderWidget::GetTextInputType() {
   return ui::TEXT_INPUT_TYPE_NONE;
 }
 
-#if defined(OS_MACOSX) || defined(USE_AURA) || defined(OS_ANDROID)
+#if defined(OS_MACOSX) || defined(USE_AURA) || defined(OS_ANDROID) || defined(USE_EFL)
 void RenderWidget::UpdateCompositionInfo(bool should_update_range) {
 #if defined(OS_ANDROID)
   // Sending composition info makes sense only in Lollipop (API level 21)
@@ -2055,7 +2057,7 @@ void RenderWidget::resetInputMethod() {
       Send(new InputHostMsg_ImeCancelComposition(routing_id()));
   }
 
-#if defined(OS_MACOSX) || defined(USE_AURA) || defined(OS_ANDROID)
+#if defined(OS_MACOSX) || defined(USE_AURA) || defined(OS_ANDROID) || defined(USE_EFL)
   UpdateCompositionInfo(true);
 #endif
 }
@@ -2063,7 +2065,7 @@ void RenderWidget::resetInputMethod() {
 void RenderWidget::didHandleGestureEvent(
     const WebGestureEvent& event,
     bool event_cancelled) {
-#if defined(OS_ANDROID) || defined(USE_AURA)
+#if defined(OS_ANDROID) || defined(USE_AURA) || defined(USE_EFL)
   if (event_cancelled)
     return;
   if (event.type == WebInputEvent::GestureTap) {

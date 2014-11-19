@@ -77,7 +77,7 @@ class CONTENT_EXPORT RenderWidgetHostViewGuest
                             bool can_compose_inline,
                             int flags) override;
   void ImeCancelComposition() override;
-#if defined(OS_MACOSX) || defined(USE_AURA)
+#if defined(OS_MACOSX) || defined(USE_AURA) || defined(USE_EFL)
   void ImeCompositionRangeChanged(
       const gfx::Range& range,
       const std::vector<gfx::Rect>& character_bounds) override;
@@ -93,7 +93,7 @@ class CONTENT_EXPORT RenderWidgetHostViewGuest
       const ViewHostMsg_SelectionBounds_Params& params) override;
   void OnSwapCompositorFrame(uint32 output_surface_id,
                              scoped_ptr<cc::CompositorFrame> frame) override;
-#if defined(USE_AURA)
+#if defined(USE_AURA) || defined(USE_EFL)
   void ProcessAckedTouchEvent(const TouchEventWithLatencyInfo& touch,
                               InputEventAckState ack_result) override;
 #endif
@@ -169,7 +169,7 @@ class CONTENT_EXPORT RenderWidgetHostViewGuest
   // RenderWidgetHostViewGuest mostly only cares about stuff related to
   // compositing, the rest are directly forwared to this |platform_view_|.
   base::WeakPtr<RenderWidgetHostViewBase> platform_view_;
-#if defined(USE_AURA)
+#if defined(USE_AURA) || defined(USE_EFL)
   scoped_ptr<ui::GestureRecognizer> gesture_recognizer_;
 #endif
   DISALLOW_COPY_AND_ASSIGN(RenderWidgetHostViewGuest);

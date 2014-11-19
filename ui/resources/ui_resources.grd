@@ -40,7 +40,7 @@
         <structure type="chrome_scaled_image" name="IDR_APP_TOP_LEFT" file="app_top_left.png" />
         <structure type="chrome_scaled_image" name="IDR_APP_TOP_RIGHT" file="app_top_right.png" />
       </if>
-      <if expr="is_linux and use_aura">
+      <if expr="is_linux and (use_aura or use_efl)">
         <structure type="chrome_scaled_image" name="IDR_AURA_CURSOR_BIG_ALIAS" file="common/pointers/alias_big.png" />
         <structure type="chrome_scaled_image" name="IDR_AURA_CURSOR_BIG_CELL" file="common/pointers/cell_big.png" />
         <structure type="chrome_scaled_image" name="IDR_AURA_CURSOR_BIG_COL_RESIZE" file="common/pointers/sb_h_double_arrow_big.png" />
@@ -357,7 +357,7 @@
           <structure type="chrome_scaled_image" name="IDR_NOTIFICATION_CLOSE_HOVER" file="common/notification_close_hover.png"/>
           <structure type="chrome_scaled_image" name="IDR_NOTIFICATION_CLOSE_PRESSED" file="common/notification_close_pressed.png"/>
         </if>
-        <if expr="desktop_linux and use_aura">
+        <if expr="desktop_linux and (use_aura or use_efl)">
           <structure type="chrome_scaled_image" name="IDR_NOTIFICATION_BUBBLE_CLOSE" file="common/notification_bubble_close.png"/>
           <structure type="chrome_scaled_image" name="IDR_NOTIFICATION_BUBBLE_CLOSE_HOVER" file="common/notification_bubble_close_hover.png"/>
           <structure type="chrome_scaled_image" name="IDR_NOTIFICATION_BUBBLE_CLOSE_PRESSED" file="common/notification_bubble_close_pressed.png"/>
@@ -387,13 +387,13 @@
         <structure type="chrome_scaled_image" name="IDR_PANEL_BOTTOM_LEFT_CORNER" file="panel_bottom_left_corner.png" />
         <structure type="chrome_scaled_image" name="IDR_PANEL_BOTTOM_RIGHT_CORNER" file="panel_bottom_right_corner.png" />
       </if>
-      <if expr="is_posix and not is_macosx and not is_ios and not use_aura">
+      <if expr="is_posix and not is_macosx and not is_ios and not use_aura and not use_efl">
         <structure type="chrome_scaled_image" name="IDR_PROGRESS_BAR" file="linux/linux-progress-bar.png" />
         <structure type="chrome_scaled_image" name="IDR_PROGRESS_BORDER_LEFT" file="linux/linux-progress-border-left.png" />
         <structure type="chrome_scaled_image" name="IDR_PROGRESS_BORDER_RIGHT" file="linux/linux-progress-border-right.png" />
         <structure type="chrome_scaled_image" name="IDR_PROGRESS_VALUE" file="linux/linux-progress-value.png" />
       </if>
-      <if expr="use_aura">
+      <if expr="use_aura or use_efl">
         <structure type="chrome_scaled_image" name="IDR_PROGRESS_BAR" file="linux/linux-progress-bar.png" />
         <structure type="chrome_scaled_image" name="IDR_PROGRESS_BORDER_LEFT" file="linux/linux-progress-border-left.png" />
         <structure type="chrome_scaled_image" name="IDR_PROGRESS_BORDER_RIGHT" file="linux/linux-progress-border-right.png" />
@@ -425,7 +425,7 @@
         <structure type="chrome_scaled_image" name="IDR_RESTORE_H" file="restore_hover.png" />
         <structure type="chrome_scaled_image" name="IDR_RESTORE_P" file="restore_pressed.png" />
       </if>
-      <if expr="use_aura">
+      <if expr="use_aura or use_efl">
         <structure type="chrome_scaled_image" name="IDR_SCROLLBAR_ARROW_BUTTON_BASE_HOVER_BOTTOM" file="common/aura_scrollbar_arrow_button_base_hover_bottom.png" />
         <structure type="chrome_scaled_image" name="IDR_SCROLLBAR_ARROW_BUTTON_BASE_HOVER_BOTTOM_LEFT" file="common/aura_scrollbar_arrow_button_base_hover_bottom_left.png" />
         <structure type="chrome_scaled_image" name="IDR_SCROLLBAR_ARROW_BUTTON_BASE_HOVER_BOTTOM_RIGHT" file="common/aura_scrollbar_arrow_button_base_hover_bottom_right.png" />

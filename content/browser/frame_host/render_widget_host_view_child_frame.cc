@@ -116,7 +116,7 @@ void RenderWidgetHostViewChildFrame::ImeCancelComposition() {
   NOTREACHED();
 }
 
-#if defined(OS_MACOSX) || defined(USE_AURA) || defined(OS_ANDROID)
+#if defined(OS_MACOSX) || defined(USE_AURA) || defined(OS_ANDROID) || defined(USE_EFL)
 void RenderWidgetHostViewChildFrame::ImeCompositionRangeChanged(
     const gfx::Range& range,
     const std::vector<gfx::Rect>& character_bounds) {
@@ -221,12 +221,12 @@ gfx::Rect RenderWidgetHostViewChildFrame::GetBoundsInRootWindow() {
   return GetViewBounds();
 }
 
-#if defined(USE_AURA)
+#if defined(USE_AURA) || defined(USE_EFL)
 void RenderWidgetHostViewChildFrame::ProcessAckedTouchEvent(
     const TouchEventWithLatencyInfo& touch,
     InputEventAckState ack_result) {
 }
-#endif  // defined(USE_AURA)
+#endif  // defined(USE_AURA) || defined(USE_EFL)
 
 bool RenderWidgetHostViewChildFrame::LockMouse() {
   return false;

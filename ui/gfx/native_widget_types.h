@@ -42,7 +42,7 @@
 // 'views' and with our Chrome UI code where the elements are also called
 // 'views'.
 
-#if defined(USE_AURA)
+#if defined(USE_AURA) || defined(USE_EFL)
 class SkRegion;
 namespace aura {
 class Window;
@@ -51,7 +51,7 @@ namespace ui {
 class Cursor;
 class Event;
 }
-#endif  // defined(USE_AURA)
+#endif  // defined(USE_AURA) || defined(USE_EFL)
 
 #if defined(OS_WIN)
 #include <windows.h>  // NOLINT
@@ -132,6 +132,12 @@ typedef ui::ViewAndroid* NativeView;
 typedef ui::WindowAndroid* NativeWindow;
 typedef void* NativeRegion;
 typedef jobject NativeEvent;
+#elif defined(USE_EFL)
+typedef ui::Cursor NativeCursor;
+typedef void* NativeView;
+typedef void* NativeWindow;
+typedef SkRegion* NativeRegion;
+typedef ui::Event* NativeEvent;
 #endif
 
 #if defined(OS_WIN)
@@ -170,7 +176,7 @@ typedef void* NativeViewAccessible;
 #endif
 
 // A constant value to indicate that gfx::NativeCursor refers to no cursor.
-#if defined(USE_AURA)
+#if defined(USE_AURA) || defined(USE_EFL)
 const int kNullCursor = 0;
 #else
 const gfx::NativeCursor kNullCursor = static_cast<gfx::NativeCursor>(NULL);

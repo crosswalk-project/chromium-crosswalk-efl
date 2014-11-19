@@ -254,7 +254,7 @@ IPC_MESSAGE_ROUTED0(InputHostMsg_SelectRange_ACK)
 // Required for cancelling an ongoing input method composition.
 IPC_MESSAGE_ROUTED0(InputHostMsg_ImeCancelComposition)
 
-#if defined(OS_MACOSX) || defined(USE_AURA) || defined(OS_ANDROID)
+#if defined(OS_MACOSX) || defined(USE_AURA) || defined(OS_ANDROID) || defined(USE_EFL)
 // On Mac and Aura IME can request composition character bounds
 // synchronously (see crbug.com/120597). This IPC message sends the character
 // bounds after every composition change to always have correct bound info.

@@ -197,7 +197,7 @@ void RenderWidgetHostViewBase::MovePluginWindowsHelper(
     return;
   }
 
-#if defined(USE_AURA)
+#if defined(USE_AURA) || defined(USE_EFL)
   std::vector<RECT> invalidate_rects;
 #endif
 
@@ -248,7 +248,7 @@ void RenderWidgetHostViewBase::MovePluginWindowsHelper(
     else
       flags |= SWP_HIDEWINDOW;
 
-#if defined(USE_AURA)
+#if defined(USE_AURA) || defined(USE_EFL)
     if (GpuDataManagerImpl::GetInstance()->CanUseGpuBrowserCompositor()) {
       // Without this flag, Windows repaints the parent area uncovered by this
       // move. However when software compositing is used the clipping region is
@@ -275,7 +275,7 @@ void RenderWidgetHostViewBase::MovePluginWindowsHelper(
       ::SetWindowRgn(window, hrgn,
                      !move.clip_rect.IsEmpty() && (flags & SWP_NOREDRAW) == 0);
 
-#if defined(USE_AURA)
+#if defined(USE_AURA) || defined(USE_EFL)
       // When using the software compositor, if the clipping rectangle is empty
       // then DeferWindowPos won't redraw the newly uncovered area under the
       // plugin.
@@ -310,7 +310,7 @@ void RenderWidgetHostViewBase::MovePluginWindowsHelper(
 
   ::EndDeferWindowPos(defer_window_pos_info);
 
-#if defined(USE_AURA)
+#if defined(USE_AURA) || defined(USE_EFL)
   if (GpuDataManagerImpl::GetInstance()->CanUseGpuBrowserCompositor()) {
     for (size_t i = 0; i < moves.size(); ++i) {
       const WebPluginGeometry& move = moves[i];
