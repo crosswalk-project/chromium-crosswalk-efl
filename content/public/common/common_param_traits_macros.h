@@ -47,7 +47,7 @@ IPC_ENUM_TRAITS_MAX_VALUE(content::V8CacheOptions,
 IPC_ENUM_TRAITS_MAX_VALUE(content::V8ScriptStreamingMode,
                           content::V8_SCRIPT_STREAMING_MODE_LAST)
 
-#if defined(TIZEN_ENGINE_SUPPORT)
+#if defined(USE_EFL)
 IPC_ENUM_TRAITS_MAX_VALUE(content::EditableLinkBehavior,
                           content::EDITABLE_LINK_BEHAVIOR_LAST)
 #endif
@@ -190,7 +190,7 @@ IPC_STRUCT_TRAITS_BEGIN(content::WebPreferences)
   IPC_STRUCT_TRAITS_MEMBER(v8_script_streaming_mode)
   IPC_STRUCT_TRAITS_MEMBER(slimming_paint_enabled)
   IPC_STRUCT_TRAITS_MEMBER(pepper_accelerated_video_decode_enabled)
-#if defined(OS_ANDROID) || defined(TIZEN_ENGINE_SUPPORT)
+#if defined(OS_ANDROID) || defined(USE_EFL)
   IPC_STRUCT_TRAITS_MEMBER(text_autosizing_enabled)
   IPC_STRUCT_TRAITS_MEMBER(font_scale_factor)
   IPC_STRUCT_TRAITS_MEMBER(device_scale_adjustment)
@@ -214,7 +214,7 @@ IPC_STRUCT_TRAITS_BEGIN(content::WebPreferences)
   IPC_STRUCT_TRAITS_MEMBER(ignore_main_frame_overflow_hidden_quirk)
   IPC_STRUCT_TRAITS_MEMBER(report_screen_size_in_physical_pixels_quirk)
 #endif
-#if defined(TIZEN_ENGINE_SUPPORT)
+#if defined(USE_EFL)
   IPC_STRUCT_TRAITS_MEMBER(editable_link_behavior)
 #endif
 IPC_STRUCT_TRAITS_END()

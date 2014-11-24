@@ -156,7 +156,7 @@ WebPreferences::WebPreferences()
       slimming_paint_enabled(false),
       cookie_enabled(true),
       pepper_accelerated_video_decode_enabled(false)
-#if defined(OS_ANDROID) || defined(TIZEN_ENGINE_SUPPORT)
+#if defined(OS_ANDROID) || defined(USE_EFL)
       ,
       text_autosizing_enabled(true),
       font_scale_factor(1.0f),
@@ -181,7 +181,7 @@ WebPreferences::WebPreferences()
       ignore_main_frame_overflow_hidden_quirk(false),
       report_screen_size_in_physical_pixels_quirk(false)
 #endif
-#if defined(TIZEN_ENGINE_SUPPORT)
+#if defined(USE_EFL)
       ,
       editable_link_behavior(EDITABLE_LINK_BEHAVIOR_DEFAULT),
       uses_encoding_detector(false),

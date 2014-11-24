@@ -32,7 +32,7 @@ enum EditingBehavior {
   EDITING_BEHAVIOR_LAST = EDITING_BEHAVIOR_ANDROID
 };
 
-#if defined(TIZEN_ENGINE_SUPPORT)
+#if defined(USE_EFL)
 enum EditableLinkBehavior {
   EDITABLE_LINK_BEHAVIOR_DEFAULT,
   EDITABLE_LINK_BEHAVIOR_ALWAYS_LIVE,
@@ -184,7 +184,7 @@ struct CONTENT_EXPORT WebPreferences {
   // pepper plugins. Defaults to false.
   bool pepper_accelerated_video_decode_enabled;
 
-#if defined(OS_ANDROID) || defined(TIZEN_ENGINE_SUPPORT)
+#if defined(OS_ANDROID) || defined(USE_EFL)
   bool text_autosizing_enabled;
   float font_scale_factor;
   float device_scale_adjustment;
@@ -210,7 +210,7 @@ struct CONTENT_EXPORT WebPreferences {
   bool report_screen_size_in_physical_pixels_quirk;
 #endif
 
-#if defined(TIZEN_ENGINE_SUPPORT)
+#if defined(USE_EFL)
   EditableLinkBehavior editable_link_behavior;
   bool uses_encoding_detector;
   ListStylePosition initial_list_style_position;
