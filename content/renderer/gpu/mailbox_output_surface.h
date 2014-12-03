@@ -67,6 +67,7 @@ class MailboxOutputSurface : public CompositorOutputSurface {
   std::deque<TransferableFrame> pending_textures_;
   std::queue<TransferableFrame> returned_textures_;
 
+  bool wait_for_frame_complete_; //will use glFlush or glFinish
   uint32 fbo_;
   bool is_backbuffer_discarded_;
   cc::ResourceFormat format_;

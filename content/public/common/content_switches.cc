@@ -867,6 +867,11 @@ const char kValidateInputEventStream[] = "validate-input-event-stream";
 // kWaitForDebugger flag passed on or not.
 const char kWaitForDebuggerChildren[]       = "wait-for-debugger-children";
 
+// Used to enable glFlush or glFinish call to render the current frame
+// Calling glFlush causes black screen issue for static pages and IE Fish page
+// the black screen issue is seen on Tizen TV/mobile/desktop
+const char kWaitForFrameComplete[] = "wait-for-frame-complete";
+
 // The prefix used when starting the zygote process. (i.e. 'gdb --args')
 const char kZygoteCmdPrefix[]               = "zygote-cmd-prefix";
 

@@ -2,7 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+#include "content/public/common/content_switches.h"
 #include "content/renderer/gpu/mailbox_output_surface.h"
+
+#include "base/command_line.h"
 
 #include "base/logging.h"
 #include "cc/output/compositor_frame.h"
@@ -41,6 +44,10 @@ MailboxOutputSurface::MailboxOutputSurface(
   pending_textures_.push_back(TransferableFrame());
   capabilities_.max_frames_pending = 1;
   capabilities_.uses_default_gl_framebuffer = false;
+
+  CommandLine *cmdline = CommandLine::ForCurrentProcess();
+  wait_for_frame_complete_ =
+      cmdline->HasSwitch(switches::kWaitForFrameComplete);
 }
 
 MailboxOutputSurface::~MailboxOutputSurface() {
@@ -201,7 +208,15 @@ void MailboxOutputSurface::SwapBuffers(cc::CompositorFrame* frame) {
          context_provider_->IsContextLost());
 
   frame->gl_frame_data->mailbox = current_backing_.mailbox;
-  context_provider_->ContextGL()->Flush();
+  // Using glFinish call instead of glFlush it fixes black screen issue with
+  // static pages and IE Fish page. (black screen issue was seen on
+  // Tizen TV/mobile/desktop)
+  if (!wait_for_frame_complete_) {
+    context_provider_->ContextGL()->Flush();
+  } else {
+    context_provider_->ContextGL()->Finish();
+  }
+
   frame->gl_frame_data->sync_point =
       context_provider_->ContextGL()->InsertSyncPointCHROMIUM();
   CompositorOutputSurface::SwapBuffers(frame);
