@@ -970,6 +970,9 @@ bool RenderFrameImpl::OnMessageReceived(const IPC::Message& msg) {
     IPC_MESSAGE_HANDLER(FrameMsg_SelectPopupMenuItem, OnSelectPopupMenuItem)
     IPC_MESSAGE_HANDLER(InputMsg_CopyToFindPboard, OnCopyToFindPboard)
 #endif
+#if defined(USE_EFL)
+    IPC_MESSAGE_HANDLER(FrameHostMsg_LoadNotFoundErrorPage, OnLoadNotFoundErrorPage)
+#endif
   IPC_END_MESSAGE_MAP()
 
   return handled;
@@ -1445,6 +1448,17 @@ void RenderFrameImpl::OnDisownOpener() {
   if (frame_->opener())
     frame_->setOpener(NULL);
 }
+
+#if defined(USE_EFL)
+void RenderFrameImpl::OnLoadNotFoundErrorPage(
+      std::string errorUrl) {
+  WebURLError error;
+  error.unreachableURL = GURL(errorUrl);
+  WebURLRequest request(error.unreachableURL);
+
+  LoadNavigationErrorPage(request, error, true);
+}
+#endif
 
 #if defined(OS_ANDROID)
 void RenderFrameImpl::OnSelectPopupMenuItems(

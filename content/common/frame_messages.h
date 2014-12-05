@@ -795,3 +795,7 @@ IPC_MESSAGE_ROUTED1(FrameHostMsg_ShowPopup,
 IPC_MESSAGE_ROUTED0(FrameHostMsg_HidePopup)
 
 #endif
+#if defined(USE_EFL)
+  IPC_MESSAGE_ROUTED1(FrameHostMsg_LoadNotFoundErrorPage,
+                      std::string /* error url */)
+#endif

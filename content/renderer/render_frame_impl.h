@@ -591,6 +591,9 @@ class CONTENT_EXPORT RenderFrameImpl
   void OnSelectPopupMenuItem(int selected_index);
   void OnCopyToFindPboard();
 #endif
+#if defined(USE_EFL)
+void OnLoadNotFoundErrorPage(std::string errorUrl);
+#endif
 
   // PlzNavigate
   void OnRequestNavigation(const CommonNavigationParams& common_params,
