@@ -507,6 +507,10 @@ class CONTENT_EXPORT RenderFrameImpl
 
   ManifestManager* manifest_manager();
 
+#if defined(USE_EFL)
+  void requestUpdateFormNavigation();
+#endif
+
  protected:
   RenderFrameImpl(RenderViewImpl* render_view, int32 routing_id);
 

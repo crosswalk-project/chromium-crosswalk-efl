@@ -98,6 +98,11 @@ class CONTENT_EXPORT RenderViewHostDelegateView {
   virtual void HideDisambiguationPopup() {}
 #endif
 
+#if defined(USE_EFL)
+  virtual void UpdateFormNavigation(int formElementCount, int currentNodeIndex,
+      bool prevState, bool nextState) {}
+#endif
+
  protected:
   virtual ~RenderViewHostDelegateView() {}
 };

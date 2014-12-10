@@ -482,6 +482,17 @@ IPC_MESSAGE_ROUTED1(FrameMsg_SelectPopupMenuItem,
 
 #endif
 
+#if defined(USE_EFL)
+IPC_MESSAGE_ROUTED0(FrameMsg_MoveToPreviousSelectElement)
+IPC_MESSAGE_ROUTED0(FrameMsg_MoveToNextSelectElement)
+
+IPC_MESSAGE_ROUTED4(FrameHostMsg_UpdateFormNavigation,
+                    int /* formElementCount */,
+                    int /* currentNodeIndex */,
+                    bool /* prevState */,
+                    bool /* nextState */)
+#endif
+
 #if defined(OS_TIZEN)
 // External popup menus.
 IPC_MESSAGE_ROUTED0(FrameMsg_ClosePopupMenu);

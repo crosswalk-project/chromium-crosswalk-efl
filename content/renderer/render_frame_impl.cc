@@ -172,6 +172,11 @@
 #include "media/base/tizen/webmediaplayer_tizen.h"
 #endif
 
+#if defined(USE_EFL)
+#include "third_party/WebKit/public/web/WebElementCollection.h"
+#include "third_party/WebKit/public/web/WebNodeList.h"
+#endif
+
 using blink::WebContextMenuData;
 using blink::WebData;
 using blink::WebDataSource;
@@ -208,6 +213,10 @@ using blink::WebVector;
 using blink::WebView;
 using base::Time;
 using base::TimeDelta;
+
+#if defined(USE_EFL)
+using blink::WebElementCollection;
+#endif
 
 namespace content {
 
@@ -1855,6 +1864,11 @@ WebExternalPopupMenu* RenderFrameImpl::createExternalPopupMenu(
   // will have to close the first one before another one can be shown.
   if (external_popup_menu_)
     return NULL;
+
+#if defined(USE_EFL)
+  requestUpdateFormNavigation();
+#endif
+
   external_popup_menu_.reset(
       new ExternalPopupMenu(this, popup_menu_info, popup_menu_client));
   if (render_view_->screen_metrics_emulator_) {
@@ -4274,5 +4288,46 @@ RendererCdmManager* RenderFrameImpl::GetCdmManager() {
   return cdm_manager_;
 }
 #endif  // defined(ENABLE_BROWSER_CDMS)
+
+#if defined(USE_EFL)
+void RenderFrameImpl::requestUpdateFormNavigation() {
+  WebNode focused_element = GetFocusedElement();
+  if(focused_element.isNull())
+    return;
+
+  // Get document
+  if (!render_view_->webview())
+    return;
+
+  WebFrame* focused_frame = render_view_->webview()->focusedFrame();
+  if (!focused_frame)
+    return;
+
+  WebDocument document = focused_frame->document();
+  if (document.isNull())
+      return;
+
+  WebElementCollection select_elements = document.getElementsByHTMLTagName("select");
+  int count = 0;
+  int index = 0;
+  for(WebElement e = select_elements.firstItem();
+      !e.isNull(); e = select_elements.nextItem()) {
+    // take only visible elements into account
+    if (e.hasNonEmptyBoundingBox()) {
+      if (e == focused_element)
+        index = count;
+      ++count;
+    }
+  }
+
+  if (count) {
+    bool prev_available = (index > 0);
+    bool next_available = (index < count-1);
+
+    Send(new FrameHostMsg_UpdateFormNavigation(routing_id_, count, index,
+        prev_available, next_available));
+  }
+}
+#endif
 
 }  // namespace content

@@ -363,6 +363,12 @@ class CONTENT_EXPORT RenderFrameHostImpl
   void DidClosePopupMenu();
 #endif
 
+#if defined(USE_EFL)
+  void OnUpdateFormNavigation(int formElementCount, int currentNodeIndex,
+      bool prevState, bool nextState);
+  void MoveSelectElement(bool direction);
+#endif
+
   // PlzNavigate: Indicates that a navigation is ready to commit and can be
   // handled by this RenderFrame.
   void CommitNavigation(ResourceResponse* response,

@@ -88,6 +88,12 @@ class InterstitialPageImpl::InterstitialPageRVHDelegateView
                      bool allow_multiple_selection) override;
   void HidePopupMenu() override;
 #endif
+
+#if defined(USE_EFL)
+  virtual void UpdateFormNavigation(int formElementCount, int currentNodeIndex,
+      bool prevState, bool nextState) override;
+#endif
+
   void StartDragging(const DropData& drop_data,
                      WebDragOperationsMask operations_allowed,
                      const gfx::ImageSkia& image,
@@ -863,6 +869,13 @@ void InterstitialPageImpl::InterstitialPageRVHDelegateView::ShowPopupMenu(
 
 void InterstitialPageImpl::InterstitialPageRVHDelegateView::HidePopupMenu() {
   NOTREACHED() << "InterstitialPage does not support showing popup menus.";
+}
+#endif
+
+#if defined(USE_EFL)
+void InterstitialPageImpl::InterstitialPageRVHDelegateView::UpdateFormNavigation(
+    int formElementCount, int currentNodeIndex, bool prevState, bool nextState) {
+  NOTREACHED() << "InterstitialPage does not support UpdateFormNavigation.";
 }
 #endif
 

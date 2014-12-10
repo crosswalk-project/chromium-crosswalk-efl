@@ -399,6 +399,9 @@ bool RenderFrameHostImpl::OnMessageReceived(const IPC::Message &msg) {
     IPC_MESSAGE_HANDLER(FrameHostMsg_ShowPopup, OnShowPopup)
     IPC_MESSAGE_HANDLER(FrameHostMsg_HidePopup, OnHidePopup)
 #endif
+#if defined(USE_EFL)
+    IPC_MESSAGE_HANDLER(FrameHostMsg_UpdateFormNavigation, OnUpdateFormNavigation)
+#endif
   IPC_END_MESSAGE_MAP()
 
   // No further actions here, since we may have been deleted.
@@ -1255,6 +1258,23 @@ void RenderFrameHostImpl::OnHidePopup() {
       render_view_host_->delegate_->GetDelegateView();
   if (view)
     view->HidePopupMenu();
+}
+#endif
+
+#if defined(USE_EFL)
+void RenderFrameHostImpl::OnUpdateFormNavigation(int formElementCount,
+    int currentNodeIndex, bool prevState, bool nextState) {
+  RenderViewHostDelegateView* view =
+      render_view_host_->delegate_->GetDelegateView();
+  if (view)
+    view->UpdateFormNavigation(formElementCount, currentNodeIndex, prevState, nextState);
+}
+
+void RenderFrameHostImpl::MoveSelectElement(bool direction) {
+  if(direction)
+    Send(new FrameMsg_MoveToNextSelectElement(GetRoutingID()));
+  else
+    Send(new FrameMsg_MoveToPreviousSelectElement(GetRoutingID()));
 }
 #endif
 
