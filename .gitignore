@@ -438,3 +438,5 @@ v8.log
 /x86-generic_out/
 /xcodebuild
 /xwalk
+/tizen_src
+/out.*
